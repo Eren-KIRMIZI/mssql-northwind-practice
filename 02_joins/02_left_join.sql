@@ -1,24 +1,25 @@
 /*
-Konu        : LEFT JOIN / RIGHT JOIN
+Konu        : LEFT JOIN
 Veritabanı  : Northwind (TR)
-Açıklama    : Eşleşmeyen kayıtları da getirme
-Amaç        : Eksik ilişkileri analiz edebilmek
+Açıklama    : Eşleşmese bile sol tablodaki kayıtları getirme
+Amaç        : Eksik ilişkileri ve NULL durumlarını analiz edebilmek
 */
 
 /* --------------------------------------------------
-1. LEFT JOIN - Tüm satışlar + varsa müşteri
+1. Tüm satışlar + varsa müşteri bilgisi
+(Satış var ama müşteri silinmiş olabilir)
 -------------------------------------------------- */
 SELECT 
     s.SatisID,
-    m.MusteriAdi,
-    s.SatisTarihi
+    s.SatisTarihi,
+    m.MusteriAdi
 FROM dbo.Satislar s
 LEFT JOIN dbo.Musteriler m
     ON s.MusteriID = m.MusteriID;
 
 
 /* --------------------------------------------------
-2. LEFT JOIN - Satışı olmayan müşteriler
+2. Satışı olmayan müşteriler
 (EN ÇOK SORULAN SENARYO)
 -------------------------------------------------- */
 SELECT 
@@ -31,9 +32,11 @@ WHERE s.SatisID IS NULL;
 
 
 /* --------------------------------------------------
-3. LEFT JOIN - Ürün + Satış Detayı
+3. Tüm ürünler + varsa satış detayları
+(Satılmamış ürünler de gelir)
 -------------------------------------------------- */
 SELECT 
+    u.UrunID,
     u.UrunAdi,
     sd.Miktar,
     sd.BirimFiyati
@@ -43,7 +46,8 @@ LEFT JOIN dbo.[Satis Detaylari] sd
 
 
 /* --------------------------------------------------
-4. LEFT JOIN - Hiç satılmamış ürünler
+4. Hiç satılmamış ürünler
+(LEFT JOIN + IS NULL paterni)
 -------------------------------------------------- */
 SELECT 
     u.UrunID,
@@ -55,25 +59,27 @@ WHERE sd.UrunID IS NULL;
 
 
 /* --------------------------------------------------
-5. RIGHT JOIN - Satış detayı + ürün
+5. Tüm müşteriler + satış bilgisi (varsa)
+(Müşteri bazlı genel görünüm)
 -------------------------------------------------- */
-SELECT 
-    u.UrunAdi,
-    sd.Miktar,
-    sd.BirimFiyati
-FROM dbo.[Satis Detaylari] sd
-RIGHT JOIN dbo.Urunler u
-    ON sd.UrunID = u.UrunID;
+SELECT
+    m.MusteriID,
+    m.MusteriAdi,
+    s.SatisID,
+    s.SatisTarihi
+FROM dbo.Musteriler m
+LEFT JOIN dbo.Satislar s
+    ON m.MusteriID = s.MusteriID;
 
 
 /* --------------------------------------------------
-6. RIGHT JOIN yerine LEFT JOIN tercihi
-(Aynı sonucu verir)
+6. Personel + yaptığı satışlar (yapmamış olsa bile)
 -------------------------------------------------- */
-SELECT 
-    u.UrunAdi,
-    sd.Miktar,
-    sd.BirimFiyati
-FROM dbo.Urunler u
-LEFT JOIN dbo.[Satis Detaylari] sd
-    ON u.UrunID = sd.UrunID;
+SELECT
+    p.PersonelID,
+    p.Adi + ' ' + p.Soyadi AS PersonelAdi,
+    s.SatisID,
+    s.SatisTarihi
+FROM dbo.Personeller p
+LEFT JOIN dbo.Satislar s
+    ON p.PersonelID = s.PersonelID;
