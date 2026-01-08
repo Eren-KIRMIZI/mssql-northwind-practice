@@ -36,7 +36,7 @@ WHERE s.SatisID IS NULL;
 SELECT 
     u.UrunAdi,
     sd.Miktar,
-    sd.BirimFiyat
+    sd.BirimFiyati
 FROM dbo.Urunler u
 LEFT JOIN dbo.[Satis Detaylari] sd
     ON u.UrunID = sd.UrunID;
@@ -60,7 +60,7 @@ WHERE sd.UrunID IS NULL;
 SELECT 
     u.UrunAdi,
     sd.Miktar,
-    sd.BirimFiyat
+    sd.BirimFiyati
 FROM dbo.[Satis Detaylari] sd
 RIGHT JOIN dbo.Urunler u
     ON sd.UrunID = u.UrunID;
@@ -73,7 +73,7 @@ RIGHT JOIN dbo.Urunler u
 SELECT 
     u.UrunAdi,
     sd.Miktar,
-    sd.BirimFiyat
+    sd.BirimFiyati
 FROM dbo.Urunler u
 LEFT JOIN dbo.[Satis Detaylari] sd
     ON u.UrunID = sd.UrunID;
