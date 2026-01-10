@@ -25,3 +25,19 @@ BEGIN
     PRINT 'Yeni satış eklendi. SatisID: ' + CAST(@SatisID AS varchar);
 END;
 GO
+
+
+/*
+INSERT INTO dbo.Satislar
+(
+    MusteriID,
+    PersonelID,
+    SatisTarihi
+)
+VALUES
+(
+    'ALFKI',
+    1,
+    GETDATE()
+);
+*/
