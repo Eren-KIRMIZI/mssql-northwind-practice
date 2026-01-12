@@ -1,6 +1,6 @@
 /*
 Konu        : RANK() vs DENSE_RANK()
-Amaç        : Sıralamada farkları görmek
+Amaç        : Sıralamada farkları görmek. RANK → atlama yapar.  DENSE_RANK → boşluk bırakmaz.
 */
 
 USE Northwind;
