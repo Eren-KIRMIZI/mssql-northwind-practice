@@ -1,6 +1,6 @@
 /*
 Konu        : TEMP TABLE vs TABLE VARIABLE
-Amaç        : Hangisi ne zaman kullanılır?
+Amaç        : Hangisi ne zaman kullanılır?  “Küçük veri için table variable, büyük veri ve join için temp table kullanırım.”
 */
 
 USE Northwind;
